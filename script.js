@@ -32,16 +32,21 @@ function getTowns(city) {
         .catch(error => console.error('Error fetching towns:', error));
 }
 
-    // 街区符号一覧を取得する関数
-    function getStreets(town) {
-        fetch(`https://geoapi.heartrails.com/api/json?method=getStreets&town=${encodeURIComponent(town)}`)
-            .then(response => response.json())
-            .then(data => {
-                const streets = data.response.location;
+// 街区符号一覧を取得する関数
+function getStreets(town) {
+    fetch(`https://geoapi.heartrails.com/api/json?method=getStreets&town=${encodeURIComponent(town)}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.response.location) {
+                const streets = data.response.location.map(street => street.street);
                 displayButtons(streets, 'street');
-            })
-            .catch(error => console.error('Error fetching streets:', error));
-    }
+            } else {
+                console.error('Error fetching streets: Location data is undefined');
+            }
+        })
+        .catch(error => console.error('Error fetching streets:', error));
+}
+
     
     // 住居番号一覧を取得する関数
     function getNumbers(street) {
