@@ -21,17 +21,17 @@ function getCities(prefecture) {
         })
         .catch(error => console.error('Error fetching cities:', error));
 }
-    // 町名一覧を取得する関数
-    function getTowns(city) {
-        fetch(`https://geoapi.heartrails.com/api/json?method=getTowns&city=${encodeURIComponent(city)}`)
-            .then(response => response.json())
-            .then(data => {
-                const towns = data.response.location;
-                displayButtons(towns, 'town');
-            })
-            .catch(error => console.error('Error fetching towns:', error));
-    }
-    
+// 町名一覧を取得する関数
+function getTowns(city) {
+    fetch(`https://geoapi.heartrails.com/api/json?method=getTowns&city=${encodeURIComponent(city)}`)
+        .then(response => response.json())
+        .then(data => {
+            const towns = data.response.location.map(town => town.town);
+            displayButtons(towns, 'town');
+        })
+        .catch(error => console.error('Error fetching towns:', error));
+}
+
     // 街区符号一覧を取得する関数
     function getStreets(town) {
         fetch(`https://geoapi.heartrails.com/api/json?method=getStreets&town=${encodeURIComponent(town)}`)
