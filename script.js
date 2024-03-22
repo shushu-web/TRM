@@ -16,7 +16,7 @@ function getCities(prefecture) {
     fetch(`https://geoapi.heartrails.com/api/json?method=getCities&prefecture=${encodeURIComponent(prefecture)}`)
         .then(response => response.json())
         .then(data => {
-            const cities = data.response.cities.map(city => city.city);
+            const cities = data.response.location.map(city => city.city);
             displayButtons(cities, 'city');
         })
         .catch(error => console.error('Error fetching cities:', error));
