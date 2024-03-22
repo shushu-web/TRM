@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
+    const selectedLocation = [];
+
     function getPrefectures() {
         fetch('https://geoapi.heartrails.com/api/json?method=getPrefectures')
             .then(response => response.json())
@@ -53,6 +55,18 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Error fetching numbers:', error));
     }
     
+    // ボタン表示関数
+    function displayButtons(dataArray, level) {
+        const buttonsContainer = document.getElementById('buttonsContainer');
+        buttonsContainer.innerHTML = '';
+        dataArray.forEach(item => {
+            const button = document.createElement('button');
+            button.textContent = item;
+            button.addEventListener('click', () => selectLocation(item, level));
+            buttonsContainer.appendChild(button);
+        });
+    }
+    
     // ロケーション選択関数
     function selectLocation(location, level) {
         selectedLocation.push(location);
@@ -78,5 +92,20 @@ document.addEventListener('DOMContentLoaded', function() {
             displayMap(selectedLocation);
         }
     }
-    
+
+    // 次のレベルを取得する関数
+    function getNextLevel(level) {
+        const levels = ['prefecture', 'city', 'town', 'street', 'number'];
+        return levels[level];
+    }
+
+    // 地図表示関数
+    function displayMap(locationArray) {
+        const address = locationArray.join(', ');
+        const mapUrl = `https://www.openstreetmap.org/search?query=${address}#map=15`;
+        document.getElementById('map').innerHTML = `<iframe width="100%" height="100%" src="${mapUrl}" frameborder="0"></iframe>`;
+    }
+
+    // 初期表示: 都道府県一覧を表示
+    getPrefectures();
 });
