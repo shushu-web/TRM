@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>タクシーナビゲーション</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>タクシーナビゲーションシステム</h1>
+        <div id="locationButtons">
+            <button onclick="selectLocation('prefecture')">都道府県</button>
+            <button onclick="selectLocation('city')">市区町村</button>
+            <button onclick="selectLocation('town')">町</button>
+            <button onclick="selectLocation('street')">丁目</button>
+            <button onclick="selectLocation('number')">号</button>
+        </div>
+        <div id="map"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
