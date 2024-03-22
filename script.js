@@ -22,15 +22,22 @@ function getCities(prefecture) {
         .catch(error => console.error('Error fetching cities:', error));
 }
 // 町名一覧を取得する関数
-function getTowns(city) {
-    fetch(`https://geoapi.heartrails.com/api/json?method=getTowns&city=${encodeURIComponent(city)}`)
+function getCities(prefecture) {
+    fetch(`https://geoapi.heartrails.com/api/json?method=getCities&prefecture=${encodeURIComponent(prefecture)}`)
         .then(response => response.json())
         .then(data => {
-            const towns = data.response.location.map(town => town.town);
-            displayButtons(towns, 'town');
+            const cities = data.response.location.map(city => city.city);
+            displayButtons(cities, 'city');
+            // 町名を選択する際にイベントリスナーを追加
+            document.getElementById('buttonsContainer').addEventListener('click', function(event) {
+                if (event.target.tagName === 'BUTTON') {
+                    selectLocation(event.target.textContent, 'city');
+                }
+            });
         })
-        .catch(error => console.error('Error fetching towns:', error));
+        .catch(error => console.error('Error fetching cities:', error));
 }
+
 
 // 街区符号一覧を取得する関数
 function getStreets(town) {
