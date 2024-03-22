@@ -11,17 +11,16 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Error fetching prefectures:', error));
     }
     
-    // 市区町村一覧を取得する関数
-    function getCities(prefecture) {
-        fetch(`https://geoapi.heartrails.com/api/json?method=getCities&prefecture=${encodeURIComponent(prefecture)}`)
-            .then(response => response.json())
-            .then(data => {
-                const cities = data.response.location;
-                displayButtons(cities, 'city');
-            })
-            .catch(error => console.error('Error fetching cities:', error));
-    }
-    
+  // 市区町村一覧を取得する関数
+function getCities(prefecture) {
+    fetch(`https://geoapi.heartrails.com/api/json?method=getCities&prefecture=${encodeURIComponent(prefecture)}`)
+        .then(response => response.json())
+        .then(data => {
+            const cities = data.response.cities.map(city => city.city);
+            displayButtons(cities, 'city');
+        })
+        .catch(error => console.error('Error fetching cities:', error));
+}
     // 町名一覧を取得する関数
     function getTowns(city) {
         fetch(`https://geoapi.heartrails.com/api/json?method=getTowns&city=${encodeURIComponent(city)}`)
